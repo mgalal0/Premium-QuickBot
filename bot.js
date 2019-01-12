@@ -58,6 +58,73 @@ client.on('message', message => {
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////// وصف كود ديفون  مع اب ن للبرميوم دا 
+
+ client.on('message', message => {
+        var prefix = "q";
+        if(message.content.startsWith(prefix + 'deafen')) {
+      if (message.mentions.users.size === 0 && message.mentions.roles.size === 0) {
+        return message.reply('**يجب عليك المنشن اولاّ**:x:').catch(console.error);
+      }
+      if (!message.guild.member(client.user).hasPermission('DEAFEN_MEMBERS')) {
+        return message.reply('للأسف البوت لا يمتلك صلاحيات لتنفيذ هذه الأمر**:x:').catch(console.error);
+      }
+     
+      const deafenMember = (member) => {
+        if (!member || !member.voiceChannel) return;
+        if (member.serverDeaf) return message.channel.send(`${member} **لديه ديفن بالفعل**:x:`);
+        member.setDeaf(true).catch(console.error);
+        if(!message.member.hasPermission("DEAFEN_MEMBERS")) return message.channel.sendMessage("**ليس لديك صلاحية لاعطاء ديفن **:x: ").then(m => m.delete(5000));
+      };
+     
+      message.mentions.users.forEach(user => deafenMember(message.guild.member(user)));
+      message.mentions.roles.forEach(role => role.members.forEach(member => deafenMember(member)));
+        }
+        
+    });  
+     
+    client.on('message', async message =>{
+      var prefix = "q";
+      if(message.content.startsWith(prefix + 'undeafen')) {
+     
+    if (message.mentions.users.size === 0 && message.mentions.roles.size === 0) {
+      return message.reply('**يجب عليك المنشن اولاّ**:x:').catch(console.error);
+    }
+    if (!message.guild.member(client.user).hasPermission('DEAFEN_MEMBERS')) {
+      return message.reply('**للأسف البوت لا يمتلك صلاحيات لتنفيذ هذه الأمر**:x: ').catch(console.error);
+      if(!message.member.hasPermission("DEAFEN_MEMBERS")) return message.channel.sendMessage("**ليس لديك صلاحية لاعطاء ديفن **:x: ").then(m => m.delete(5000));
+    }
+     
+    const undeafenMember = (member) => {
+      if (!member || !member.voiceChannel) return;
+      if (!member.serverDeaf) return message.channel.send(`${member} `);
+      member.setDeaf(false).catch(console.error);
+    };
+     
+    message.mentions.users.forEach(user => undeafenMember(message.guild.member(user)));
+    message.mentions.roles.forEach(role => role.members.forEach(member => undeafenMember(member)));
+    }
+    });
+  
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -260,9 +327,9 @@ possibleInvites.push([inviteCount, exec]);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////Ban  Voiceeee 
+///////////////////////////Ban + unBan Voiceeee 
 client.on('message', eyad => {
-  if (eyad.content.startsWith('g!uvban')) {
+  if (eyad.content.startsWith('quvban')) {
 if (!eyad.member.hasPermission("MOVE_MEMBERS")) return eyad.channel.send("**انت لا تمتلك الخاصيه المطلوبه** | ❎ ");
  let men = eyad.mentions.users.first()
  let mas = eyad.author
@@ -294,7 +361,7 @@ eyad.channel.sendEmbed(Embed11).then(eyad => {eyad.delete(15000)})
 }) // نهايه كود فك الباند الفويس
  
 client.on('message', eyad => {
-  if (eyad.content.startsWith('g!vban')) {
+  if (eyad.content.startsWith('qvban')) {
 if (!eyad.member.hasPermission("MOVE_MEMBERS")) return eyad.channel.send("❎ | **انت لا تمتلك الخاصيه المطلوبه**");
 let men = eyad.mentions.users.first()
 let mas = eyad.author
